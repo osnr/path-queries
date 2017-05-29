@@ -28,19 +28,24 @@ sudo sh ./opam_installer.sh /usr/local/bin 4.02.3
 
 opam init --comp=4.02.3 --auto-setup -y
 
-opam install -y frenetic
+# Older frenetic doesn't have the right command line options.
+# 3.4.1 is from March 2015 so think it's right.
+opam install -y frenetic.3.4.1
 ln -s /home/mininet/.opam/4.02.3/bin/frenetic ~/pyretic/frenetic
 
 cd ~/pyretic
+git checkout master
 git pull
-# Just in case.
-git checkout 3fe625bcce132740fc8732db359b12e13313bf02
+# Latest on path_queries branch.
+git checkout 97ba3b46e53a4e2f8b000d5a87d4ff25b08cff95
+# He forgot to add these files, so get them off master.
+git checkout 3fe625bcce132740fc8732db359b12e13313bf02 -- pyretic/examples/stanford_data 
 
 # Fix home folder hard-code.
 sed -i.bak 's,/home/mina/,/home/mininet/,g' pyretic/evaluations/eval_compilation.py
 
 # Switch from pypy to Python for now.
-tee pyretic/evaluations/scripts/nsdi16/init_settings.sh <<EOF
+tee pyretic/evaluations/scripts/nsdi16/init_settings.sh <<'EOF'
 SCRIPT_LOG="pyretic/evaluations/log-evals.txt"
 rm -f $SCRIPT_LOG
 #PYCMD="/opt/pypy-2.4.0/bin/pypy"
