@@ -44,6 +44,9 @@ git checkout 3fe625bcce132740fc8732db359b12e13313bf02 -- pyretic/examples/stanfo
 # Fix home folder hard-code.
 sed -i.bak 's,/home/mina/,/home/mininet/,g' pyretic/evaluations/eval_compilation.py
 
+# Avoid piping output to tee; stops a test lockup on first run.
+sed -i.bak 's,| \$cap_cmd,,g' pyretic/evaluations/scripts/nsdi16/run*.sh
+
 # Switch from pypy to Python for now.
 tee pyretic/evaluations/scripts/nsdi16/init_settings.sh <<'EOF'
 SCRIPT_LOG="pyretic/evaluations/log-evals.txt"
