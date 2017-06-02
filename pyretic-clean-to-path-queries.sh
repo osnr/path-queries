@@ -6,6 +6,8 @@
 # Installs a bunch of apt dependencies, then OCaml and Frenetic.
 # Sets up so you can run path query / eval scripts immediately afterward.
 
+# Also sets up stuff for charts / analysis on-machine.
+
 sudo tee /etc/apt/sources.list <<EOF
 
 deb http://old-releases.ubuntu.com/ubuntu/  raring main restricted universe multiverse
@@ -21,7 +23,9 @@ sudo apt-get --force-yes -y install unzip ragel
 
 # TODO: Install pypy.
 
-sudo pip install netaddr yappi fnss
+sudo pip install netaddr yappi fnss pydot
+
+sudo pip install matplotlib # For analysis.
 
 wget https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh
 sudo sh ./opam_installer.sh /usr/local/bin 4.02.3
