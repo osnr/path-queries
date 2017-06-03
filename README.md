@@ -100,10 +100,10 @@ and delete the `path-queries` folder, then rerun the replicate
 script. At worst, you can make a new instance.
 
 3. You should see the scalability trend tests running, starting with
-   run 1 and `igen_delauney`. These tests attempt to compile path
-   queries on increasingly large synthetic networks (up to 100 nodes);
-   they track how many rules are emitted and how long the compilation
-   takes.
+   run 1 of `igen_delauney` on a 20-node network. These tests attempt
+   to compile various path queries on increasingly large synthetic
+   networks (up to 100 nodes); they track how many rules are emitted
+   and how long the compilation takes.
 
    The tests should take about 5-6 hours to complete.
 
@@ -121,10 +121,22 @@ shows that a test ended and no further tests ran), we can view the
 results.
 
 Go to the `replicate` subfolder on your computer. Run
-`./get-results.sh EXTERNALIP`. The results will appear in the
+`./get-results.sh EXTERNALIP`. The result plots will appear in the
 `replicate/results` subfolder.
-
-FIXME: what do the results mean?
 
 Make sure you turn off the giant VM instance when you're done using
 it!
+
+### Extensions
+
+If you want to run different tests, edit `test/rep_tests.sh` before
+running `replicate/replicate-in-vm.sh`. You can add different network
+sizes to `NUM_NODES_ARR`, for example, or you can remove some of the
+`OPT_FLAGS`. You can try the Stanford or enterprise scripts.
+
+The test scripts from the authors, which our scripts call into, are
+all on the VM instance, in
+`~/pyretic/pyretic/evaluations/scripts/nsdi16`. Each test writes raw
+output data to the folder
+`~/pyretic/pyretic/evaluations/evaluation_results/nsdi16/QUERYTYPE_NUMNODES_OPTIMIZATION_RUN/`
+depending on its parameters.
