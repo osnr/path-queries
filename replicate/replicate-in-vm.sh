@@ -8,9 +8,8 @@ set -o pipefail
 # ssh will ask for password twice:
 # mininet
 
-cd ..
-tar czf - * | gcloud compute ssh mininet@path-queries-replicator --zone asia-east1-a -- 'mkdir path-queries && cd path-queries && tar xvzf -'
-cd -
+REPO=$(git rev-parse --show-toplevel)
+gcloud compute scp --recurse "$REPO" mininet@path-queries-replicator:~/path-queries --zone asia-east1-a
 
 gcloud compute ssh mininet@path-queries-replicator --zone asia-east1-a -- 'cd path-queries && screen -L -S rep-tests sudo bash test/rep_tests.sh'
 
