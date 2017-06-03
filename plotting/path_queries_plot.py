@@ -4,6 +4,8 @@
 import csv
 import numpy as np
 
+from collections import OrderedDict
+
 import matplotlib
 matplotlib.use('Agg') # avoid X11
 
@@ -13,8 +15,8 @@ anafile =  open('ana_time.csv', 'r')
 ana = csv.reader(anafile)
 
 # Read in time data grouped, and separated by query
-by_node_t = dict()
-by_query_t = dict()
+by_node_t = OrderedDict()
+by_query_t = OrderedDict()
 
 for row in ana:
     if by_node_t.get(int(row[0])):
@@ -33,8 +35,8 @@ anafile.close()
 anafile =  open('ana_count.csv', 'r')
 ana = csv.reader(anafile)
 
-by_node_c = dict()
-by_query_c = dict()
+by_node_c = OrderedDict()
+by_query_c = OrderedDict()
 
 for row in ana:
     if by_node_c.get(int(row[0])):
@@ -53,7 +55,7 @@ anafile.close()
 def plotRes(dat, title, is_by_query):
     by_node = []
     if is_by_query:
-        by_node = dict()
+        by_node = OrderedDict()
         for row in dat:
             if by_node.get(row[0]):
                 by_node[row[0]] += [row[1]]
