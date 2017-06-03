@@ -6,7 +6,7 @@ set -o pipefail
 # replication).
 
 # Renders plots in VM, then copies them over to this machine.
-gcloud compute ssh mininet@path-queries-replicator --zone asia-east1-a -- 'cd path-queries/plotting && ./gen_csv.sh && python path_queries_plot.py'
+ssh mininet@$1 'cd path-queries/plotting && ./gen_csv.sh && python path_queries_plot.py'
 
 mkdir results
-gcloud compute scp --zone asia-east1-a 'mininet@path-queries-replicator:~/path-queries/plotting/*.{png,csv}' results
+scp mininet@$1:'~/path-queries/plotting/*.{png,csv}' results
