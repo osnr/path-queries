@@ -3,6 +3,8 @@
 # Run on a set-up VM. (for example, from snapshot or after pyretic-clean-to-path-queries.sh)
 # Generates scalability trend results.
 
+cd ~/pyretic
+
 source pyretic/evaluations/scripts/nsdi16/run_delauney_tests.sh
 source pyretic/evaluations/scripts/nsdi16/init_settings.sh
 
