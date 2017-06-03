@@ -53,7 +53,7 @@ for row in ana:
 anafile.close()
 
 # Output plots by query
-def plotRes(dat, title, is_by_query):
+def plotRes(dat, title='', is_by_query=True, is_boxplot=False):
     by_node = []
     if is_by_query:
         by_node = OrderedDict()
@@ -74,27 +74,35 @@ def plotRes(dat, title, is_by_query):
         n_avg += [np.mean(by_node[key])]
         n_std +=[np.std(by_node[key])]
         n_bx += [by_node[key]]
-    
-    plt.figure()
-    plt.boxplot(n_bx, labels=n)
-    plt.grid()
-    plt.title(title)
-    plt.savefig(title + '.png')
-    
-    plt.figure()
-    plt.plot(n, n_avg, 'rs-', fillstyle='none')
-    plt.title(title)
-    plt.grid()
-    plt.savefig(title + '_boxplot.png')
+   
+    if is_boxplot:
+        plt.figure()
+        plt.boxplot(n_bx, labels=n)
+    else:
+        plt.errorbar(n, n_avg, fmt='s-', yerr=np.array(n_std)/2, fillstyle='none', label=title)
+        plt.xlim((10,170))
     
 
-  
+plt.figure()  
 for key in by_query_t:
-    plotRes(by_query_t[key], key + '_t', True)
+    plotRes(by_query_t[key], key)
+plt.legend()
+plt.title('Compilation time by query')
+plt.xlabel('Number of nodes')
+plt.ylabel('Compilation time (s)')
+plt.grid()
+plt.savefig('compilation_by_query.png')
 
+plt.figure()
 for key in by_query_c:
-    plotRes(by_query_c[key], key + '_c', True)
-    
+    plotRes(by_query_c[key], key, True)
+plt.legend()
+plt.title('#Ingress rules by query')
+plt.xlabel('Number of nodes')
+plt.ylabel('#Ingress rules')
+plt.grid()
+plt.savefig('rules_by_query.png')
+
     
 # Output plots for bundled queries
 def plotAllQueries(dat_t, dat_c):
@@ -137,8 +145,10 @@ def plotAllQueries(dat_t, dat_c):
     ax2 = ax1.twinx()
     l2, = ax1.plot(n, c_avg, 'ko-', label='#Rules')
     ax1.set_ylim((0,900))
+    ax1.set_xlim((10,170))
     l1, = ax2.plot(n, t_avg, 'rs-', fillstyle='none', label='Compile time (s)')
     ax2.set_ylim((0,50))
+    ax2.set_xlim((10,170))
     ax1.set_xlabel('Number of nodes')
     ax1.set_ylabel('#Ingress Rules')
     ax2.set_ylabel('Compile time (s)')
@@ -150,3 +160,21 @@ def plotAllQueries(dat_t, dat_c):
 
 
 plotAllQueries(by_node_t, by_node_c)
+
+
+## Plots for path_loss
+plt.figure()  
+plotRes(by_query_t[' path_loss'], is_boxplot=True)
+plt.title('Boxplot of path_loss compilation time')
+plt.xlabel('Number of nodes')
+plt.ylabel('Compilation time (s)')
+plt.grid()
+plt.savefig('compilation_path_loss.png')
+
+plt.figure()  
+plotRes(by_query_c[' path_loss'], is_boxplot=True)
+plt.title('Boxplot of path_loss # of ingress rules')
+plt.xlabel('Number of nodes')
+plt.ylabel('#Ingress rules')
+plt.grid()
+plt.savefig('rules_path_loss.png')
