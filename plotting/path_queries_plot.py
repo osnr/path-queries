@@ -39,6 +39,7 @@ by_node_c = OrderedDict()
 by_query_c = OrderedDict()
 
 for row in ana:
+    if row[4] == ' ': continue;
     if by_node_c.get(int(row[0])):
         by_node_c[int(row[0])] += [float(row[4])]
     else:
