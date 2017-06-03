@@ -3,6 +3,10 @@
 
 import csv
 import numpy as np
+
+import matplotlib
+matplotlib.use('Agg') # avoid X11
+
 import matplotlib.pyplot as plt
 
 anafile =  open('ana_time.csv', 'r')
